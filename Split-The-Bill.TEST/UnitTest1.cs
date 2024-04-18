@@ -76,4 +76,39 @@ public class TipCalculatorTests
         Assert.ThrowsException<ArgumentException>(() => calculator.CalculateTipPerPerson(mealCosts, invalidTipPercentage),
             "Exception should be thrown for invalid tipPercentage.");
     }
+private decimal RunTipCalculatorWithInput(string input)
+        {
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+                Console.SetIn(new StringReader(input));
+                TipCalculator calculator = new TipCalculator();
+                return calculator.CalculateTipPerPersonFromUserInput();
+            }
+        }
+    [TestMethod]
+        public void TestCalculateTipPerPersonValidInput()
+        {
+
+            string input = "100.00\n5\n15.0\n";
+            decimal expectedTipPerPerson = 3.00m;
+            decimal actualTipPerPerson = RunTipCalculatorWithInput(input);
+            Assert.AreEqual(expectedTipPerPerson, actualTipPerPerson, "Incorrect tip per person calculated.");
+        }
+
+        [TestMethod]
+        public void TestCalculateTipPerPerson_ZeroPatrons()
+        {
+            string input = "100.00\n0\n15.0\n";
+            Assert.ThrowsException<ArgumentException>(() => RunTipCalculatorWithInput(input),
+                "Exception should be thrown for zero number of patrons.");
+        }
+
+        [TestMethod]
+        public void TestCalculateTipPerPersonInvalidTipPercentage()
+        {
+            string input = "100.00\n5\n-15.0\n"; 
+            Assert.ThrowsException<ArgumentException>(() => RunTipCalculatorWithInput(input),
+                "Exception should be thrown for invalid tip percentage.");
+        }
 }
