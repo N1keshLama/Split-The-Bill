@@ -21,4 +21,8 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Split-The-Bill_Lib\Split-The-Bill_Lib.csproj" />
+  </ItemGroup>
+
 </Project>
