@@ -21,7 +21,7 @@ class Program
         SplitCalculator splitter = new SplitCalculator();
         decimal totalAmount = 100.00m;
         int numberOfPeople = 5;
-        
+
         try
         {
             decimal splitAmount = splitter.CalculateSplitAmount(totalAmount, numberOfPeople);
@@ -34,3 +34,28 @@ class Program
     }
 }
 
+public class TipCalculator
+{
+    public Dictionary<string, decimal> CalculateTipPerPerson(Dictionary<string, decimal> mealCosts, float tipPercentage)
+    {
+        if (mealCosts == null || mealCosts.Count == 0)
+        {
+            throw new ArgumentException("Meal costs dictionary cannot be null or empty.", nameof(mealCosts));
+        }
+
+        if (tipPercentage < 0 || tipPercentage > 100)
+        {
+            throw new ArgumentException("Tip percentage must be between 0 and 100.", nameof(tipPercentage));
+        }
+
+        Dictionary<string, decimal> tipAmounts = new Dictionary<string, decimal>();
+
+        foreach (var kvp in mealCosts)
+        {
+            decimal tipAmount = kvp.Value * (decimal)(tipPercentage / 100);
+            tipAmounts.Add(kvp.Key, tipAmount);
+        }
+
+        return tipAmounts;
+    }
+}
